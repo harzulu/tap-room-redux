@@ -62,7 +62,7 @@ describe('kegListReducer', () => {
   test('Should delete keg from master keg list', () => {
     action = {
       type: 'DELETE_KEG',
-      id: 2
+      id: 1
     };
     expect(kegListReducer(currentState, action)).toEqual({
       2: {
