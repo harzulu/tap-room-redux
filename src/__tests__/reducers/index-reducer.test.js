@@ -27,7 +27,7 @@ describe('rootReducer', () => {
   });
 
   test('Check that initial state of isEditingReducer matches root reducer', () => {
-    expect(store.getState().isEditing).toEqual(true, { type: null });
+    expect(store.getState().isEditing).toEqual(false, { type: null });
   });
 
 });
