@@ -23,7 +23,7 @@ describe('rootReducer', () => {
   });
 
   test('Check that initial state of kegListReducer matches root reducer', () => {
-    expect(store.getState().currentKeg).toEqual({}, { type: nul });
+    expect(store.getState().currentKeg).toEqual({}, { type: null });
   });
 
 });
