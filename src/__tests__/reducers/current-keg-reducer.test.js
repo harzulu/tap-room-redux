@@ -33,5 +33,13 @@ describe('currentKegReducer', () => {
 
   test('Should return default state', () => {
     expect(currentKegReducer({}, { type: null })).toEqual({});
-  })
+  });
+
+  test('Should return keg at id number', () => {
+    action = {
+      type: 'GET_KEG',
+      id: 2
+    }
+    expect(currentKegReducer(currentState, action)).toEqual(kegDetail);
+  });
 });
