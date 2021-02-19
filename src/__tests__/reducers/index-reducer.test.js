@@ -22,8 +22,12 @@ describe('rootReducer', () => {
     expect(store.getState().masterKegList).toEqual({}, { type: null });
   });
 
-  test('Check that initial state of kegListReducer matches root reducer', () => {
+  test('Check that initial state of currentKegReducer matches root reducer', () => {
     expect(store.getState().currentKeg).toEqual({}, { type: null });
+  });
+
+  test('Check that initial state of isEditingReducer matches root reducer', () => {
+    expect(store.getState().isEditing).toEqual(true, { type: null });
   });
 
 });
