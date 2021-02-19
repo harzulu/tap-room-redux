@@ -4,19 +4,12 @@ import NewKegForm from './NewKegForm.js';
 import KegDetail from './KegDetail.js';
 import EditKeg from './EditKeg.js';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class BarController extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentKeg: null,
-      currentViewPage: false,
-      editing: false
-    }
-  }
 
   handleChangingSelectedKeg = (id) => {
-    const selectedKeg = this.state.masterKegList.filter(keg => keg.id === id)[0];
+    const selectedKeg = this.props.masterKegList.filter(keg => keg.id === id)[0];
     this.setState({currentKeg: selectedKeg})
   }
 
@@ -36,11 +29,11 @@ class BarController extends React.Component {
   }
 
   handleChangePints = () => {
-    const selectedKeg = this.state.currentKeg;
+    const selectedKeg = this.props.currentKeg;
     const newQuantity = Object.assign({}, selectedKeg, { pints: parseInt(selectedKeg.pints) - 1 });
 
-    const newKegList = this.state.masterKegList
-      .filter(keg => keg.id !== this.state.currentKeg.id)
+    const newKegList = this.props.masterKegList
+      .filter(keg => keg.id !== this.props.currentKeg.id)
       .concat(newQuantity);
     this.setState({
       masterKegList: newKegList,
@@ -49,16 +42,16 @@ class BarController extends React.Component {
   }
 
   handleDeleteKeg = (id) => {
-    const newMasterKegList = this.state.masterKegList.filter(keg => keg.id !== id);
-    this.setState({
-      masterKegList: newMasterKegList,
-      currentKeg: null
-    });
+    const action = {
+      type: 'DELETE_KEG',
+      id: id
+    }
+    dispatch(action)
   }
 
   handleKegEdit = (newKeg) => {
-    if (this.state.editing){
-      let newMasterKegList = this.state.masterKegList.filter(keg => keg.id !== newKeg.id);
+    if (this.props.editing){
+      let newMasterKegList = this.props.masterKegList.filter(keg => keg.id !== newKeg.id);
       newMasterKegList.concat(newKeg);
       this.setState({
         masterKegList: newMasterKegList,
@@ -71,7 +64,7 @@ class BarController extends React.Component {
   }
 
   handleClick = () => {
-    if (this.state.currentKeg != null) {
+    if (this.props.currentKeg != null) {
       this.setState({
         currentViewPage: false,
         currentKeg: null
@@ -85,17 +78,17 @@ class BarController extends React.Component {
     let currentVisibleState = null;
     let buttonText = null;
 
-    if (this.state.editing) {
-      currentVisibleState = <EditKeg pastKeg={this.state.currentKeg} kegEdit={this.handleKegEdit}/>
+    if (this.props.editing) {
+      currentVisibleState = <EditKeg pastKeg={this.props.currentKeg} kegEdit={this.handleKegEdit}/>
       buttonText ="Return to keg list";
-    } else if (this.state.currentViewPage) {
+    } else if (this.props.currentViewPage) {
       currentVisibleState = <NewKegForm onNewKegCreation={this.handleNewKegCreation}/>
       buttonText = "Return to keg list";
-    } else if (this.state.currentKeg != null) {
-      currentVisibleState = <KegDetail keg={this.state.currentKeg} changePints={this.handleChangePints} onClickingDelete={this.handleDeleteKeg} editKeg={this.handleKegEdit}/>
+    } else if (this.props.currentKeg != null) {
+      currentVisibleState = <KegDetail keg={this.props.currentKeg} changePints={this.handleChangePints} onClickingDelete={this.handleDeleteKeg} editKeg={this.handleKegEdit}/>
       buttonText = "Return to keg list";
     } else {
-      currentVisibleState = <KegList kegList={this.state.masterKegList} onKegSelection={this.handleChangingSelectedKeg}/>
+      currentVisibleState = <KegList kegList={this.props.masterKegList} onKegSelection={this.handleChangingSelectedKeg}/>
       buttonText = "Add new keg";
     } 
 
@@ -108,6 +101,22 @@ class BarController extends React.Component {
   }
 }
 
-BarController = connect()(BarController);
+BarController.propTypes = {
+  masterKegList: PropTypes.Object,
+  currentKeg: PropTypes.Object,
+  currentViewPage: PropTypes.bool,
+  isEditing: PropTypes.bool
+}
+
+const mapStateToProps = state => {
+  return {
+    masterKegList: state.masterKegList,
+    currentKeg: state.currentKeg,
+    currentView: state.currentView,
+    isEditing: state.isEditing
+  }
+}
+
+BarController = connect(mapStateToProps)(BarController);
 
 export default BarController;

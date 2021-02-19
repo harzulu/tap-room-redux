@@ -64,4 +64,13 @@ describe('rootReducer', () => {
     expect(store.getState().currentView).toEqual(currentViewReducer(false, action));
   });
 
+  test('Check that GET_KEG works for both currentKegReducer and rootReducer', () => {
+    const action = {
+      type: 'GET_KEG',
+      id: store.getState.masterKegList[1],
+    }
+    store.dispatch(action);
+    expect(store.getState().currentKeg).toEqual(currentKegReducer({}, action));
+  });
+
 });

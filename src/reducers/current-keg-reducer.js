@@ -1,8 +1,8 @@
-export default (state = {}, action) => {
-  const { id } = action;
+export default (state = null, action) => {
+  const { selectedKeg } = action;
   switch (action.type) {
     case 'GET_KEG':
-      return state[id];
+      return selectedKeg;
     default:
       return state;
   }

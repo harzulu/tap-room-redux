@@ -38,7 +38,7 @@ describe('currentKegReducer', () => {
   test('Should return keg at id number', () => {
     action = {
       type: 'GET_KEG',
-      id: 1
+      selectedKeg: currentState[1]
     }
     expect(currentKegReducer(currentState, action)).toEqual(kegDetail);
   });
