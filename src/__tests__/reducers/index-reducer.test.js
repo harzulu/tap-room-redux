@@ -5,7 +5,7 @@ describe('rootReducer', () => {
   test('Should return default state', () => {
     expect(rootReducer({}, { type: null })).toEqual({
       currentKeg: {},
-      currentView: true,
+      currentView: false,
       isEditing: false,
       masterKegList: {}
     });
