@@ -48,4 +48,12 @@ describe('rootReducer', () => {
     expect(store.getState().masterKegList).toEqual(kegListReducer({}, action));
   });
 
+  test('Check that TOGGLE_EDIT works for both isEditingReducer and rootReducer', () => {
+    const action = {
+      type: 'TOGGLE_EDIT'
+    }
+    store.dispatch(action);
+    expect(store.getState().isEditing).toEqual(isEditingReducer(true, action));
+  });
+
 });
