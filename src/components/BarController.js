@@ -9,8 +9,12 @@ import PropTypes from 'prop-types';
 class BarController extends React.Component {
 
   handleChangingSelectedKeg = (id) => {
-    const selectedKeg = this.props.masterKegList.filter(keg => keg.id === id)[0];
-    this.setState({currentKeg: selectedKeg})
+    const { dispatch } = this.props;
+    const action = {
+      type: 'GET_KEG',
+      selectedKeg: this.props.masterKegList[id]
+    }
+    dispatch(action);
   }
 
   handleNewKegCreation = (newKeg) => {
@@ -25,23 +29,39 @@ class BarController extends React.Component {
       pints: pints,
     }
     dispatch(action);
-    this.setState({currentViewPage: false});
+    
+    const action2 = {
+      type: 'TOGGLE_PAGE'
+    }
+    dispatch(action2);
   }
 
   handleChangePints = () => {
+    const { dispatch } = this.props;
     const selectedKeg = this.props.currentKeg;
     const newQuantity = Object.assign({}, selectedKeg, { pints: parseInt(selectedKeg.pints) - 1 });
+    const { id, name, brand, price, alcoholContent, pints } = newQuantity;
 
-    const newKegList = this.props.masterKegList
-      .filter(keg => keg.id !== this.props.currentKeg.id)
-      .concat(newQuantity);
-    this.setState({
-      masterKegList: newKegList,
-      currentKeg: newQuantity
-    });
+    const action = {
+      type: 'ADD_KEG',
+      name: name,
+      brand: brand,
+      price: price,
+      alcoholContent: alcoholContent,
+      pints: pints,
+      id: id
+    }
+    dispatch(action);
+
+    const action2 = {
+      type: 'GET_KEG',
+      selectedKeg: this.props.masterKegList[newQuantity.id]
+    }
+    dispatch(action2);
   }
 
   handleDeleteKeg = (id) => {
+    const { dispatch } = this.props;
     const action = {
       type: 'DELETE_KEG',
       id: id
@@ -50,27 +70,49 @@ class BarController extends React.Component {
   }
 
   handleKegEdit = (newKeg) => {
+    const { dispatch } = this.props;
+    const { id, name, brand, price, alcoholContent, pints } = newKeg;
     if (this.props.editing){
-      let newMasterKegList = this.props.masterKegList.filter(keg => keg.id !== newKeg.id);
-      newMasterKegList.concat(newKeg);
-      this.setState({
-        masterKegList: newMasterKegList,
-        currentKeg: newKeg,
-        editing: false
-      })
+      const action = {
+        type: 'ADD_KEG',
+        name: name,
+        brand: brand,
+        price: price,
+        alcoholContent: alcoholContent,
+        pints: pints,
+        id: id
+      }
+      dispatch(action);
+
+      const action2 = {
+        type: 'TOGGLE_EDIT'
+      }
+      dispatch(action2);
     } else {
-      this.setState({editing: true});
+      const action = {
+        type: 'TOGGLE_EDIT'
+      }
+      dispatch(action);
     }
   }
 
   handleClick = () => {
+    const { dispatch } = this.props;
     if (this.props.currentKeg != null) {
-      this.setState({
-        currentViewPage: false,
-        currentKeg: null
-      });
+      const action = {
+        type: 'TOGGLE_EDIT'
+      }
+      dispatch(action);
+
+      const action2 = {
+        type: 'GET_KEG'
+      }
+      dispatch(action2);
     } else {
-      this.setState(prevState => ({currentViewPage: !prevState.currentViewPage}));
+      const action = {
+        type: 'TOGGLE_PAGE'
+      }
+      dispatch(action);
     }
   }
 
@@ -102,8 +144,8 @@ class BarController extends React.Component {
 }
 
 BarController.propTypes = {
-  masterKegList: PropTypes.Object,
-  currentKeg: PropTypes.Object,
+  masterKegList: PropTypes.object,
+  currentKeg: PropTypes.object,
   currentViewPage: PropTypes.bool,
   isEditing: PropTypes.bool
 }
