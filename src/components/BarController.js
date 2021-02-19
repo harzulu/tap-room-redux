@@ -3,12 +3,12 @@ import KegList from './KegList';
 import NewKegForm from './NewKegForm.js';
 import KegDetail from './KegDetail.js';
 import EditKeg from './EditKeg.js';
+import { connect } from 'react-redux';
 
-export default class BarController extends React.Component {
+class BarController extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      masterKegList: [],
       currentKeg: null,
       currentViewPage: false,
       editing: false
@@ -100,3 +100,7 @@ export default class BarController extends React.Component {
     );
   }
 }
+
+BarController = connect()(BarController);
+
+export default BarController;
