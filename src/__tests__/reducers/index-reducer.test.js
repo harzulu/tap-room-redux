@@ -56,4 +56,12 @@ describe('rootReducer', () => {
     expect(store.getState().isEditing).toEqual(isEditingReducer(false, action));
   });
 
+  test('Check that TOGGLE_PAGE works for both currentViewReducer and rootReducer', () => {
+    const action = {
+      type: 'TOGGLE_PAGE'
+    }
+    store.dispatch(action);
+    expect(store.getState().currentView).toEqual(currentViewReducer(true, action));
+  });
+
 });
