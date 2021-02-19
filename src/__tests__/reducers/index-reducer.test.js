@@ -61,7 +61,7 @@ describe('rootReducer', () => {
       type: 'TOGGLE_PAGE'
     }
     store.dispatch(action);
-    expect(store.getState().currentView).toEqual(currentViewReducer(true, action));
+    expect(store.getState().currentView).toEqual(currentViewReducer(false, action));
   });
 
 });
