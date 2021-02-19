@@ -32,6 +32,6 @@ describe('kegListReducer', () => {
   };
 
   test('Should return the default state', () => {
-    expect(kegListReducer({}, { type: nul })).toEqual({});
+    expect(kegListReducer({}, { type: null })).toEqual({});
   });
 });
