@@ -21,11 +21,18 @@ class BarController extends React.Component {
   }
 
   handleNewKegCreation = (newKeg) => {
-    const newMasterKegList = this.state.masterKegList.concat(newKeg);
-    this.setState({
-      masterKegList: newMasterKegList,
-      currentViewPage: false
-    })
+    const { dispatch } = this.props;
+    const { id, name, brand, price, alcoholContent, pints } = newKeg;
+    const action = {
+      id: id,
+      name: name,
+      brand: brand,
+      price: price,
+      alcoholContent: alcoholContent,
+      pints: pints,
+    }
+    dispatch(action);
+    this.setState({currentViewPage: false});
   }
 
   handleChangePints = () => {
