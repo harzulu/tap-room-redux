@@ -7,6 +7,6 @@ describe('isEditingReducer', () => {
   });
 
   test('Should returned toggled state', () => {
-    expect(isEditingReducer(false, { type: 'TOGGLE_EDIT' })).toEqual(false);
+    expect(isEditingReducer(false, { type: 'TOGGLE_EDIT' })).toEqual(true);
   });
 });
