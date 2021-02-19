@@ -30,4 +30,8 @@ describe('rootReducer', () => {
     expect(store.getState().isEditing).toEqual(false, { type: null });
   });
 
+  test('Check that initial state of currentViewReducer matches root reducer', () => {
+    expect(store.getState().currentView).toEqual(true, { type: null });
+  });
+
 });
