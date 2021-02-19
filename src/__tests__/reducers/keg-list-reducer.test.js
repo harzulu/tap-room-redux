@@ -1,3 +1,4 @@
+import { act } from 'react-dom/test-utils';
 import kegListReducer from '../../reducers/keg-list-reducer.js';
 
 describe('kegListReducer', () => {
@@ -54,6 +55,23 @@ describe('kegListReducer', () => {
         alcoholContent: alcoholContent,
         pints: pints,
         id: id
+      }
+    });
+  });
+
+  test('Should delete keg from master keg list', () => {
+    action = {
+      type: 'DELETE_KEG',
+      id: 2
+    };
+    expect(kegListReducer(currentState, action)).toEqual({
+      2: {
+        name: "Angry Orchard",
+        brand: "Boston Beer Co",
+        price: 120,
+        alcoholContent: 4,
+        pints: 124,
+        id: 2
       }
     });
   });
