@@ -32,6 +32,6 @@ describe('currentKegReducer', () => {
   };
 
   test('Should return default state', () => {
-    expect(currentKegReducer({}, { type: nul })).toEqual({});
+    expect(currentKegReducer({}, { type: null })).toEqual({});
   })
 });
