@@ -34,4 +34,18 @@ describe('rootReducer', () => {
     expect(store.getState().currentView).toEqual(false, { type: null });
   });
 
+  test('Check that ADD_KEG works for kegListReducer and rootReducer', () => {
+    const action = {
+      type: 'ADD_KEG',
+      name: "Miller Lite",
+      brand: "MillerCoors",
+      price: 94,
+      alcoholContent: 5,
+      pints: 124,
+      id: 1
+    }
+    store.dispatch(action);
+    expect(store.getState().masterKegList).toEqual(kegListReducer({}, ation));
+  });
+
 });
