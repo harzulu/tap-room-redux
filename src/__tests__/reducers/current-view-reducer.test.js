@@ -7,6 +7,6 @@ describe('currentViewReducer', () => {
   });
 
   test('Should return the flipped state', () => {
-    expect(currentViewReducer(false, { type: 'TOGGLE_PAGE' })).toEqual(false);
+    expect(currentViewReducer(true, { type: 'TOGGLE_PAGE' })).toEqual(false);
   });
 });
