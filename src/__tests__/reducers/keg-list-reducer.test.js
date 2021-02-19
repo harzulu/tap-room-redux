@@ -43,7 +43,7 @@ describe('kegListReducer', () => {
       brand: brand,
       price: price,
       alcoholContent: alcoholContent,
-      pints: price,
+      pints: pints,
       id: id
     };
     expect(kegListReducer({}, action)).toEqual({
