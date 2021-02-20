@@ -21,6 +21,7 @@ class BarController extends React.Component {
     const { dispatch } = this.props;
     const { id, name, brand, price, alcoholContent, pints } = newKeg;
     const action = {
+      type: 'ADD_KEG',
       id: id,
       name: name,
       brand: brand,
@@ -38,9 +39,7 @@ class BarController extends React.Component {
 
   handleChangePints = () => {
     const { dispatch } = this.props;
-    const selectedKeg = this.props.currentKeg;
-    const newQuantity = Object.assign({}, selectedKeg, { pints: parseInt(selectedKeg.pints) - 1 });
-    const { id, name, brand, price, alcoholContent, pints } = newQuantity;
+    const { id, name, brand, price, alcoholContent, pints } = this.props.currentKeg;
 
     const action = {
       type: 'ADD_KEG',
@@ -48,14 +47,14 @@ class BarController extends React.Component {
       brand: brand,
       price: price,
       alcoholContent: alcoholContent,
-      pints: pints,
+      pints: pints - 1,
       id: id
     }
     dispatch(action);
 
     const action2 = {
       type: 'GET_KEG',
-      selectedKeg: this.props.masterKegList[newQuantity.id]
+      selectedKeg: this.props.masterKegList[id]
     }
     dispatch(action2);
   }
@@ -85,9 +84,15 @@ class BarController extends React.Component {
       dispatch(action);
 
       const action2 = {
-        type: 'TOGGLE_EDIT'
+        type: 'GET_KEG',
+        selectedKeg: this.props.masterKegList[id]
       }
       dispatch(action2);
+  
+      const action3 = {
+        type: 'TOGGLE_EDIT'
+      }
+      dispatch(action3);
     } else {
       const action = {
         type: 'TOGGLE_EDIT'
@@ -98,32 +103,29 @@ class BarController extends React.Component {
 
   handleClick = () => {
     const { dispatch } = this.props;
+
     if (this.props.currentKeg != null) {
       const action = {
-        type: 'TOGGLE_EDIT'
-      }
-      dispatch(action);
-
-      const action2 = {
-        type: 'GET_KEG'
-      }
-      dispatch(action2);
-    } else {
-      const action = {
-        type: 'TOGGLE_PAGE'
+        type: 'GET_KEG',
+        selectedKeg: null,
       }
       dispatch(action);
     }
+
+    const action = {
+      type: 'TOGGLE_PAGE'
+    }
+    dispatch(action);
   }
 
   render() {
     let currentVisibleState = null;
     let buttonText = null;
 
-    if (this.props.editing) {
+    if (this.props.isEditing) {
       currentVisibleState = <EditKeg pastKeg={this.props.currentKeg} kegEdit={this.handleKegEdit}/>
       buttonText ="Return to keg list";
-    } else if (this.props.currentViewPage) {
+    } else if (this.props.currentView) {
       currentVisibleState = <NewKegForm onNewKegCreation={this.handleNewKegCreation}/>
       buttonText = "Return to keg list";
     } else if (this.props.currentKeg != null) {
@@ -146,7 +148,7 @@ class BarController extends React.Component {
 BarController.propTypes = {
   masterKegList: PropTypes.object,
   currentKeg: PropTypes.object,
-  currentViewPage: PropTypes.bool,
+  currentView: PropTypes.bool,
   isEditing: PropTypes.bool
 }
 

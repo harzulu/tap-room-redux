@@ -7,7 +7,12 @@ import { createStore } from 'redux';
 import rootReducer from './reducers/index';
 import { Provider } from 'react-redux';
 
-const store = createStore(rootReducer);
+const initialState = {
+  currentKeg: null,
+  isEditing: false,
+}
+
+const store = createStore(rootReducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(
   <Provider store={store}>
