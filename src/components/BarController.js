@@ -88,17 +88,11 @@ class BarController extends React.Component {
         selectedKeg: this.props.masterKegList[id]
       }
       dispatch(action2);
-  
-      const action3 = {
-        type: 'TOGGLE_EDIT'
-      }
-      dispatch(action3);
-    } else {
-      const action = {
-        type: 'TOGGLE_EDIT'
-      }
-      dispatch(action);
+    } 
+    const action = {
+      type: 'TOGGLE_EDIT'
     }
+    dispatch(action);
   }
 
   handleClick = () => {
